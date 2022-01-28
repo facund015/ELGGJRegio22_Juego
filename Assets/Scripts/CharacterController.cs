@@ -18,11 +18,11 @@ public class CharacterController : MonoBehaviour {
     void Update() {
 
         //Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
-        if (!armorSwitch && armorEvents.IsArmorInRange()) {
+        if (!armorSwitch) {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
             // Disable armor object
-            armorEvents.GetArmorObject().SetActive(false);
+
         }
         //Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
         else {
@@ -30,9 +30,10 @@ public class CharacterController : MonoBehaviour {
         }
 
         //Activa la gravedad
-        if (Input.GetKeyDown(KeyCode.G) && !armorSwitch) {
+        if (Input.GetKeyDown(KeyCode.G) && !armorSwitch && armorEvents.IsArmorInRange()) {
             rb.gravityScale = 50;
             armorSwitch = true;
+            armorEvents.GetArmorObject().SetActive(false);
         }
         //Desactiva la gravedad
         else if (Input.GetKeyDown(KeyCode.G) && armorSwitch) {
