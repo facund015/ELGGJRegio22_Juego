@@ -32,6 +32,10 @@ public class CharacterController : MonoBehaviour {
             rb.gravityScale = 50;
             possessSwitch = true;
             enableMovement = vesselEvents.GetMovementFlag();
+            // If movement is restricted then move player to hiding spot
+            if (!enableMovement) {
+                gameObject.transform.position = vesselEvents.GetVesselObj().transform.position;
+            }
             vesselEvents.GetVesselObj().SetActive(false);
             
         }
@@ -40,6 +44,7 @@ public class CharacterController : MonoBehaviour {
             rb.gravityScale = 0;
             possessSwitch = false;
             if (vesselEvents.GetVesselObj() != null) {
+                vesselEvents.GetVesselObj().transform.parent.position = gameObject.transform.position;
                 vesselEvents.GetVesselObj().SetActive(true);
             }
             enableMovement = true;
