@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour {
@@ -8,21 +6,21 @@ public class CharacterController : MonoBehaviour {
 
     private Rigidbody2D rb;
     private Vector2 movement;
-    private bool armorSwitch = false;
-    ArmorEvents armorEvents;
+    private bool possessSwitch = false;
+    VesselEvents vesselEvents;
+    public bool enableMovement = true;
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-        armorEvents = gameObject.GetComponent<ArmorEvents>();
+
+        vesselEvents = gameObject.GetComponent<VesselEvents>();
     }
 
     void Update() {
 
         //Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
-        if (!armorSwitch) {
+        if (!possessSwitch) {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
-            // Disable armor object
-
         }
         //Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
         else {
@@ -30,27 +28,30 @@ public class CharacterController : MonoBehaviour {
         }
 
         //Activa la gravedad
-        if (Input.GetKeyDown(KeyCode.G) && !armorSwitch && armorEvents.IsArmorInRange()) {
+        if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselEvents.InRange()) {
             rb.gravityScale = 50;
-            armorSwitch = true;
-            armorEvents.GetArmorObject().SetActive(false);
+            possessSwitch = true;
+            enableMovement = vesselEvents.GetMovementFlag();
+            vesselEvents.GetVesselObj().SetActive(false);
+            
         }
         //Desactiva la gravedad
-        else if (Input.GetKeyDown(KeyCode.G) && armorSwitch) {
+        else if (Input.GetKeyDown(KeyCode.G) && possessSwitch) {
             rb.gravityScale = 0;
-            armorSwitch = false;
-            if (armorEvents.GetArmorObject() != null) {
-                armorEvents.GetArmorObject().SetActive(true);
+            possessSwitch = false;
+            if (vesselEvents.GetVesselObj() != null) {
+                vesselEvents.GetVesselObj().SetActive(true);
             }
+            enableMovement = true;
         }
     }
 
     //Actualiza el motor de fisicas en un timer constante
     private void FixedUpdate() {
-        if (!armorSwitch) {
+        if (!possessSwitch && enableMovement) {
             rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
         }
-        else {
+        else if (enableMovement) {
             rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
         }
     }
