@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: [Armor, Enemy]
+  tags:
+  - Armor
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -12,7 +14,7 @@ TagManager:
   - Water
   - UI
   - PassableObstacle
-  - 
+  - Light Emiter
   - 
   - 
   - 
@@ -40,4 +42,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer
+    uniqueID: 3340318047
+    locked: 0
+  - name: New Layer
+    uniqueID: 1507835781
     locked: 0
