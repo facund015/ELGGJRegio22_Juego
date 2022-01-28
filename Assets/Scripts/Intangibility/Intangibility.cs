@@ -15,6 +15,7 @@ public class Intangibility : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.T)) {
             intangible = !intangible;
+            // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
             Physics2D.IgnoreLayerCollision(3, 6, intangible);
         }
     }
