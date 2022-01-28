@@ -36,7 +36,7 @@ public class CharacterController : MonoBehaviour {
             if (!enableMovement) {
                 gameObject.transform.position = vesselEvents.GetVesselObj().transform.position;
             }
-            vesselEvents.GetVesselObj().SetActive(false);
+            vesselEvents.GetVesselObj().transform.parent.gameObject.SetActive(false);
             
         }
         //Desactiva la gravedad
@@ -45,7 +45,7 @@ public class CharacterController : MonoBehaviour {
             possessSwitch = false;
             if (vesselEvents.GetVesselObj() != null) {
                 vesselEvents.GetVesselObj().transform.parent.position = gameObject.transform.position;
-                vesselEvents.GetVesselObj().SetActive(true);
+                vesselEvents.GetVesselObj().transform.parent.gameObject.SetActive(true);
             }
             enableMovement = true;
         }
