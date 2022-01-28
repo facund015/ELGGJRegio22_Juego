@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Armor
-  - Enemy
-  - Vessel
-  - Ground
-  - HidingSpot
+  tags: [Armor, Enemy, Vessel, Ground, HidingSpot]
   layers:
   - Default
   - TransparentFX
@@ -19,7 +14,7 @@ TagManager:
   - PassableObstacle
   - Vessel
   - Ground
-  - 
+  - Light Emiter
   - 
   - 
   - 
@@ -48,4 +43,10 @@ TagManager:
     locked: 0
   - name: Back
     uniqueID: 1512882005
+    locked: 0
+  - name: New Layer
+    uniqueID: 3340318047
+    locked: 0
+  - name: New Layer
+    uniqueID: 1507835781
     locked: 0
