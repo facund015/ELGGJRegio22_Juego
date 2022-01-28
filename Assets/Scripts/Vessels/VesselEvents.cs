@@ -10,21 +10,13 @@ public class VesselEvents : MonoBehaviour {
         inRange = false;
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
     private void OnTriggerEnter2D( Collider2D collision ) {
         vesselObj = collision.gameObject;
-        if (collision.gameObject.CompareTag("Vessel")) {
-            inRange = true;
-        }    
+        inRange = ArmorOrHSpot(collision.gameObject);    
     }
 
     private void OnTriggerExit2D( Collider2D collision ) {
-        if (collision.gameObject.CompareTag("Vessel")) {
-            inRange = false;
-        }  
+       inRange = ArmorOrHSpot(collision.gameObject);  
     }
 
     public bool InRange() {
@@ -34,8 +26,8 @@ public class VesselEvents : MonoBehaviour {
     public GameObject GetVesselObj() {
         return vesselObj;
     }
-
-    public bool GetMovementFlag() {
-        return vesselObj.GetComponentInParent<MovementFlag>().movementAllowed;
+    
+    private bool ArmorOrHSpot(GameObject obj) {
+        return obj.gameObject.CompareTag("Armor") || obj.gameObject.CompareTag("HidingSpot");
     }
 }
