@@ -16,16 +16,13 @@ public class CharacterController : MonoBehaviour
     private bool touchingEnemy = false;
     private int iFrames = 30;
 
-    private void Start()
-    {
+    private void Start() {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
+    void Update() {
         //Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
-        if (!gravitySwitch)
-        {
+        if (!gravitySwitch) {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
         }
