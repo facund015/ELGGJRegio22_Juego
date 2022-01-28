@@ -3,10 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Armor
-  - Enemy
-  - Vessel
+  tags: [Armor, Enemy, Vessel, Ground]
   layers:
   - Default
   - TransparentFX
@@ -16,7 +13,7 @@ TagManager:
   - UI
   - PassableObstacle
   - Vessel
-  - 
+  - Ground
   - 
   - 
   - 
