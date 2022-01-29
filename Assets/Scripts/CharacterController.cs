@@ -10,11 +10,13 @@ public class CharacterController : MonoBehaviour {
 
     private Rigidbody2D rb;
     private Vector2 movement;
+    private Vector2 movementAir;
     private bool possessSwitch = false;
     VesselEvents vesselEvents;
-    bool enableMovement = true;
+    public bool enableMovement = true;
     public bool isArmored = false;
     public bool isHidden = false;
+    public bool isInAirCurrent = false;
     bool vesselInRange = false;
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
@@ -79,12 +81,24 @@ public class CharacterController : MonoBehaviour {
 
     //Actualiza el motor de fisicas en un timer constante
     private void FixedUpdate() {
-        if (!possessSwitch && enableMovement) {
-            rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
+
+        if (!isInAirCurrent || isArmored)
+        {
+            if (!possessSwitch && enableMovement)
+            {
+                rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
+                //Debug.Log(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
+
+            }
+            else if (enableMovement)
+            {
+                rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
+            }
+        } else
+        {
+            rb.MovePosition(rb.position + (movement+movementAir).normalized * 3f * Time.fixedDeltaTime);
         }
-        else if (enableMovement) {
-            rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
-        }
+        
 
         if (touchingEnemy)
         {
@@ -119,6 +133,12 @@ public class CharacterController : MonoBehaviour {
             touchingEnemy = false;
             iFrames = 60;
         }
+    }
+
+    public void setAirCurrentDirection(Vector2 direction, bool status)
+    {
+        isInAirCurrent = status;
+        movementAir = direction;
     }
 
 }
