@@ -7,7 +7,9 @@ public class Window : MonoBehaviour
 {
     public Transform lightPivot;
     public Vector2 boxSize;
-    public float maxDistance;
+    public Light2D light;
+
+    private float innerAngle;
 
     void Start()
     {
@@ -21,19 +23,17 @@ public class Window : MonoBehaviour
 
     void ShootLight()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(lightPivot.position, boxSize, lightPivot.eulerAngles.z, lightPivot.up, maxDistance);
+        innerAngle = light.pointLightInnerAngle;
+
+        RaycastHit2D hit = Physics2D.BoxCast(lightPivot.position, boxSize, lightPivot.eulerAngles.z, lightPivot.up, 100f);
 
         if (hit.point != null)
         {
             Debug.DrawLine(lightPivot.position, hit.point, Color.red);
-            if (hit.transform.tag == "Player")
-            {
-                hit.transform.SendMessage("HitByLight", false);
-            }
         }
         else
         {
-            Debug.DrawLine(lightPivot.position, new Vector2(lightPivot.position.x, maxDistance), Color.red);
+            Debug.DrawLine(lightPivot.position, -transform.up, Color.red);
         }
     }
 }
