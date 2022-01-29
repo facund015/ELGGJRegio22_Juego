@@ -12,14 +12,8 @@ public class CharacterController : MonoBehaviour {
     private Vector2 movement;
     private Vector2 movementAir;
     private bool possessSwitch = false;
-<<<<<<< HEAD
-    VesselEvents vesselEvents;
-    public bool enableMovement = true;
-    public bool isArmored = false;
-    public bool isHidden = false;
-    public bool isInAirCurrent = false;
-    bool vesselInRange = false;
-=======
+
+    private bool isInAirCurrent = false;
 
     public bool isArmored = false;
     public bool isHidden = false;
@@ -27,7 +21,6 @@ public class CharacterController : MonoBehaviour {
     GameObject vesselObj;
     GameObject currentVesselObject;
     bool intangible = false;
->>>>>>> 5b552917fb3f02337a9511d8bb25c368022568f5
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -73,7 +66,8 @@ public class CharacterController : MonoBehaviour {
                 currentVesselObject.transform.parent.position = transform.position;
                 currentVesselObject.SetActive(true);
                 currentVesselObject = null;
-            } else {
+            }
+            else {
                 // Hiding spot
                 isHidden = false;
                 gameObject.GetComponent<Renderer>().enabled = true;
@@ -97,76 +91,65 @@ public class CharacterController : MonoBehaviour {
 
     // Actualiza el motor de fisicas en un timer constante
     private void FixedUpdate() {
-<<<<<<< HEAD
 
-        if (!isInAirCurrent || isArmored)
-        {
-            if (!possessSwitch && enableMovement)
-            {
+        if (!isInAirCurrent || isArmored) {
+            if (!possessSwitch && !isHidden) {
                 rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
                 //Debug.Log(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
 
             }
-            else if (enableMovement)
-            {
+            else if (!isHidden) {
                 rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
             }
-        } else
-        {
-            rb.MovePosition(rb.position + (movement+movementAir).normalized * 3f * Time.fixedDeltaTime);
-=======
-        if (!possessSwitch && !isHidden) {
-            rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
         }
-        else if (!isHidden) {
-            rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
->>>>>>> 5b552917fb3f02337a9511d8bb25c368022568f5
-        }
-        
+        else {
+            rb.MovePosition(rb.position + (movement + movementAir).normalized * 3f * Time.fixedDeltaTime);
+            if (!possessSwitch && !isHidden) {
+                rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
+            }
+            else if (!isHidden) {
+                rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
+            }
 
-        if (touchingEnemy) {
-            iFrames--;
-            if (iFrames == 0) {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+            if (touchingEnemy) {
+                iFrames--;
+                if (iFrames == 0) {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
             }
         }
     }
-
-    private void OnTriggerEnter2D( Collider2D collision ) {
-        Debug.Log("COLLISISODNAWDNAWD");
-        if (collision.gameObject.CompareTag("Armor") || collision.gameObject.CompareTag("HidingSpot")) {
-            vesselObj = collision.gameObject;
-            vesselInRange = true;
-        }
-        if (collision.gameObject.CompareTag("Ghost")) {
-            if (isArmored) {
-                GravityOff();
-                touchingEnemy = true;
+        private void OnTriggerEnter2D( Collider2D collision ) {
+            Debug.Log("COLLISISODNAWDNAWD");
+            if (collision.gameObject.CompareTag("Armor") || collision.gameObject.CompareTag("HidingSpot")) {
+                vesselObj = collision.gameObject;
+                vesselInRange = true;
             }
-            else {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            if (collision.gameObject.CompareTag("Ghost")) {
+                if (isArmored) {
+                    GravityOff();
+                    touchingEnemy = true;
+                }
+                else {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
             }
         }
-    }
 
-    private void OnTriggerExit2D( Collider2D collision ) {
-        if (collision.gameObject.CompareTag("Ghost")) {
-            touchingEnemy = false;
-            iFrames = 60;
+        private void OnTriggerExit2D( Collider2D collision ) {
+            if (collision.gameObject.CompareTag("Ghost")) {
+                touchingEnemy = false;
+                iFrames = 60;
+            }
+            if (collision.gameObject.CompareTag("Armor") || collision.gameObject.CompareTag("HidingSpot")) {
+                vesselInRange = false;
+                vesselObj = null;
+            }
         }
-        if (collision.gameObject.CompareTag("Armor") || collision.gameObject.CompareTag("HidingSpot")) {
-            vesselInRange = false;
-            vesselObj = null;
+
+        public void setAirCurrentDirection( Vector2 direction, bool status ) {
+            isInAirCurrent = status;
+            movementAir = direction;
         }
     }
-<<<<<<< HEAD
-
-    public void setAirCurrentDirection(Vector2 direction, bool status)
-    {
-        isInAirCurrent = status;
-        movementAir = direction;
-    }
-
-=======
->>>>>>> 5b552917fb3f02337a9511d8bb25c368022568f5
-}
