@@ -33,6 +33,7 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         // Intangibility 
+<<<<<<< HEAD
         //if (Input.GetKeyDown(KeyCode.T))
         //{
         //    intangible = !intangible;
@@ -48,6 +49,20 @@ public class CharacterController : MonoBehaviour
         //Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
         else
         {
+=======
+        if (Input.GetKeyDown(KeyCode.T)) {
+            intangible = !intangible;
+            // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
+            Physics2D.IgnoreLayerCollision(3, 6, intangible);
+        }
+        // Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
+        if (!possessSwitch) {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+        }
+        // Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
+        else {
+>>>>>>> 89c08e9a596eb77d3f2375b7639590634ec417bb
             movement.x = Input.GetAxisRaw("Horizontal");
         }
 
