@@ -11,18 +11,25 @@ public class CharacterController : MonoBehaviour {
     private Rigidbody2D rb;
     private Vector2 movement;
     private bool possessSwitch = false;
-    VesselEvents vesselEvents;
-    bool enableMovement = true;
+
     public bool isArmored = false;
     public bool isHidden = false;
-    bool vesselInRange = false;
+    public bool vesselInRange = false;
+    GameObject vesselObj;
+    GameObject currentVesselObject;
+    bool intangible = false;
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-        vesselEvents = gameObject.GetComponent<VesselEvents>();
     }
 
     void Update() {
 
+        // Intangibility 
+        if (Input.GetKeyDown(KeyCode.T)) {
+            intangible = !intangible;
+            // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
+            Physics2D.IgnoreLayerCollision(3, 6, intangible);
+        }
         //Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
         if (!possessSwitch) {
             movement.x = Input.GetAxisRaw("Horizontal");
@@ -33,92 +40,93 @@ public class CharacterController : MonoBehaviour {
             movement.x = Input.GetAxisRaw("Horizontal");
         }
 
-        //Activa la gravedad
-        if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselEvents.InRange()) {
-            TurnOnGravity();
+        //Activa la posesion de un objeto
+        if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselInRange) {
+            GravityOn();
+            possessSwitch = true;
+            currentVesselObject = vesselObj;
+            if (vesselObj.CompareTag("Armor")) {
+                isArmored = true;
+                vesselObj.SetActive(false);
+            }
+            else if (vesselObj.CompareTag("HidingSpot")) {
+                isHidden = true;
+                // Dissappear when hidden
+                gameObject.GetComponent<Renderer>().enabled = false;
+            }
         }
-        //Desactiva la gravedad
+        // Desactiva la posesion de objeto
         else if (Input.GetKeyDown(KeyCode.G) && possessSwitch) {
-            TurnOffGravity();
+            GravityOff();
+            if (currentVesselObject.CompareTag("Armor")) {
+                isArmored = false;
+                currentVesselObject.transform.parent.position = transform.position;
+                currentVesselObject.SetActive(true);
+                currentVesselObject = null;
+            } else {
+                // Hiding spot
+                isHidden = false;
+                gameObject.GetComponent<Renderer>().enabled = true;
+            }
+            currentVesselObject = null;
         }
     }
 
-    private void TurnOnGravity()
-    {
+    private void GravityOn() {
         rb.gravityScale = 50;
         possessSwitch = true;
-        if (vesselEvents.GetVesselObj().CompareTag("Armor"))
-        {
-            isArmored = true;
-            enableMovement = true;
-        }
-        else if (vesselEvents.GetVesselObj().CompareTag("HidingSpot"))
-        {
-            isHidden = true;
-            enableMovement = false;
-            // Move player to hiding spot, since it's not suppossed to move
-            gameObject.transform.position = vesselEvents.GetVesselObj().transform.position;
-        }
-        vesselEvents.GetVesselObj().transform.parent.gameObject.SetActive(false);
+
     }
 
-    private void TurnOffGravity()
-    {
+    private void GravityOff() {
         rb.gravityScale = 0;
         possessSwitch = false;
-        if (vesselEvents.GetVesselObj() != null)
-        {
-            vesselEvents.GetVesselObj().transform.parent.position = gameObject.transform.position;
-            vesselEvents.GetVesselObj().transform.parent.gameObject.SetActive(true);
-
-        }
-        enableMovement = true;
         isHidden = false;
         isArmored = false;
     }
 
-    //Actualiza el motor de fisicas en un timer constante
+    // Actualiza el motor de fisicas en un timer constante
     private void FixedUpdate() {
-        if (!possessSwitch && enableMovement) {
+        if (!possessSwitch && !isHidden) {
             rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
         }
-        else if (enableMovement) {
+        else if (!isHidden) {
             rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
         }
 
-        if (touchingEnemy)
-        {
+        if (touchingEnemy) {
             iFrames--;
-            if (iFrames == 0)
-            {
+            if (iFrames == 0) {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ghost"))
-        {
-            
-            if (isArmored)
-            {
-                TurnOffGravity();
+    private void OnTriggerEnter2D( Collider2D collision ) {
+        Debug.Log("COLLISISODNAWDNAWD");
+        if (collision.gameObject.CompareTag("Armor") || collision.gameObject.CompareTag("HidingSpot")) {
+            vesselObj = collision.gameObject;
+            vesselInRange = true;
+        }
+        if (collision.gameObject.CompareTag("Ghost")) {
+            if (isArmored) {
+                GravityOff();
                 touchingEnemy = true;
-            } else
-            {
+            }
+            else {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ghost"))
-        {
+    private void OnTriggerExit2D( Collider2D collision ) {
+        if (collision.gameObject.CompareTag("Ghost")) {
             touchingEnemy = false;
             iFrames = 60;
         }
+        if (collision.gameObject.CompareTag("Armor") || collision.gameObject.CompareTag("HidingSpot")) {
+            vesselInRange = false;
+            vesselObj = null;
+        }
     }
-
 }
