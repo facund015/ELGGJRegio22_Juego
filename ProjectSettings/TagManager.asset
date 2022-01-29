@@ -11,6 +11,7 @@ TagManager:
   - HidingSpot
   - Skeleton
   - Ghost
+  - Mirror
   layers:
   - Default
   - TransparentFX
