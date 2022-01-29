@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3177165823136535394}
   - component: {fileID: 3177165823136535395}
-  - component: {fileID: 5073084002902950559}
+  - component: {fileID: 7111239065731447720}
   m_Layer: 7
   m_Name: Armor
   m_TagString: Armor
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5073084002902950559
+--- !u!114 &7111239065731447720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
