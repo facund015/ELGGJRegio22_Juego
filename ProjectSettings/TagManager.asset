@@ -44,9 +44,9 @@ TagManager:
   - name: Back
     uniqueID: 1512882005
     locked: 0
-  - name: New Layer
+  - name: Light
     uniqueID: 3340318047
     locked: 0
-  - name: New Layer
+  - name: Light Emiter
     uniqueID: 1507835781
     locked: 0
