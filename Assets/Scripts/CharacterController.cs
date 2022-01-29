@@ -48,23 +48,30 @@ public class CharacterController : MonoBehaviour {
             GravityOn();
             possessSwitch = true;
             currentVesselObject = vesselObj;
+            movement.x = 0;
+            movement.y = 0;
             if (vesselObj.CompareTag("Armor")) {
                 isArmored = true;
-                vesselObj.SetActive(false);
+                transform.position = vesselObj.transform.position;
+                vesselObj.transform.parent.gameObject.SetActive(false);
             }
             else if (vesselObj.CompareTag("HidingSpot")) {
                 isHidden = true;
                 // Dissappear when hidden
+                transform.position = vesselObj.transform.position;
                 gameObject.GetComponent<Renderer>().enabled = false;
             }
         }
+
         // Desactiva la posesion de objeto
         else if (Input.GetKeyDown(KeyCode.G) && possessSwitch) {
+            movement.x = 0;
+            movement.y = 0;
             GravityOff();
             if (currentVesselObject.CompareTag("Armor")) {
                 isArmored = false;
                 currentVesselObject.transform.parent.position = transform.position;
-                currentVesselObject.SetActive(true);
+                currentVesselObject.transform.parent.gameObject.SetActive(true);
                 currentVesselObject = null;
             }
             else {
