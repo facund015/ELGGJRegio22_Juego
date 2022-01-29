@@ -8,10 +8,12 @@ public class CharacterController : MonoBehaviour {
     private Vector2 movement;
     private bool possessSwitch = false;
     VesselEvents vesselEvents;
-    public bool enableMovement = true;
+    bool enableMovement = true;
+    public bool isArmored = false;
+    public bool isHidden = false;
+    bool vesselInRange = false;
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-
         vesselEvents = gameObject.GetComponent<VesselEvents>();
     }
 
@@ -31,9 +33,14 @@ public class CharacterController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselEvents.InRange()) {
             rb.gravityScale = 50;
             possessSwitch = true;
-            enableMovement = vesselEvents.GetMovementFlag();
-            // If movement is restricted then move player to hiding spot
-            if (!enableMovement) {
+            if (vesselEvents.GetVesselObj().CompareTag("Armor")) {
+                isArmored = true;
+                enableMovement = true;
+            } 
+            else if (vesselEvents.GetVesselObj().CompareTag("HidingSpot")) {
+                isHidden = true;
+                enableMovement = false;
+                // Move player to hiding spot, since it's not suppossed to move
                 gameObject.transform.position = vesselEvents.GetVesselObj().transform.position;
             }
             vesselEvents.GetVesselObj().transform.parent.gameObject.SetActive(false);
@@ -46,8 +53,11 @@ public class CharacterController : MonoBehaviour {
             if (vesselEvents.GetVesselObj() != null) {
                 vesselEvents.GetVesselObj().transform.parent.position = gameObject.transform.position;
                 vesselEvents.GetVesselObj().transform.parent.gameObject.SetActive(true);
+             
             }
             enableMovement = true;
+            isHidden = false;
+            isArmored = false;
         }
     }
 
@@ -60,4 +70,5 @@ public class CharacterController : MonoBehaviour {
             rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
         }
     }
+
 }
