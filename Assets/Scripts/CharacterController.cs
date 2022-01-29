@@ -37,12 +37,22 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         // Intangibility 
+<<<<<<< HEAD
         //if (Input.GetKeyDown(KeyCode.T))
         //{
         //    intangible = !intangible;
         //    // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
         //    Physics2D.IgnoreLayerCollision(3, 6, intangible);
         //}
+=======
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            intangible = !intangible;
+            // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
+            Physics2D.IgnoreLayerCollision(3, 6, intangible);
+        }
+>>>>>>> b30dda19f5d71789cfd57f8336f210da3229bbb0
         //Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
         if (!possessSwitch)
         {
@@ -52,19 +62,15 @@ public class CharacterController : MonoBehaviour
         //Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
         else
         {
+<<<<<<< HEAD
             movement.x = Input.GetAxisRaw("Horizontal");
         }
+=======
+>>>>>>> b30dda19f5d71789cfd57f8336f210da3229bbb0
 
-        //Activa la posesion de un objeto
-        if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselInRange)
-        {
-            GravityOn();
-            possessSwitch = true;
-            currentVesselObject = vesselObj;
-            movement.x = 0;
-            movement.y = 0;
-            if (vesselObj.CompareTag("Armor"))
+            if (Input.GetKeyDown(KeyCode.T))
             {
+<<<<<<< HEAD
                 isArmored = true;
                 transform.position = vesselObj.transform.position;
                 Vessel armor = vesselObj.GetComponentInParent<Vessel>();
@@ -75,9 +81,16 @@ public class CharacterController : MonoBehaviour
                     hasMirror = true;
                 }
                 vesselObj.transform.parent.gameObject.SetActive(false);
+=======
+                intangible = !intangible;
+                // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
+                Physics2D.IgnoreLayerCollision(3, 6, intangible);
+>>>>>>> b30dda19f5d71789cfd57f8336f210da3229bbb0
             }
-            else if (vesselObj.CompareTag("HidingSpot"))
+            // Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
+            if (!possessSwitch)
             {
+<<<<<<< HEAD
                 isHidden = true;
                 // Dissappear when hidden
                 gameObject.GetComponent<Renderer>().enabled = false;
@@ -119,28 +132,86 @@ public class CharacterController : MonoBehaviour
                 }
                 currentVesselObject = null;
                 currentMirrorObject = null;
+=======
+                movement.x = Input.GetAxisRaw("Horizontal");
+                movement.y = Input.GetAxisRaw("Vertical");
+>>>>>>> b30dda19f5d71789cfd57f8336f210da3229bbb0
             }
+            // Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
             else
             {
-                // Hiding spot
-                isHidden = false;
-                gameObject.GetComponent<Renderer>().enabled = true;
-            }
-            currentVesselObject = null;
-        }
 
-        if (isInCandleLight && !isArmored)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                movement.x = Input.GetAxisRaw("Horizontal");
+            }
+
+            if (movement.normalized.x == -1)
+            {
+                transform.eulerAngles = new Vector3(0, 180, 0);
+            }
+            else if (movement.normalized.x == 1)
+            {
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            }
+
+            //Activa la posesion de un objeto
+            if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselInRange)
+            {
+                GravityOn();
+                possessSwitch = true;
+                currentVesselObject = vesselObj;
+                movement.x = 0;
+                movement.y = 0;
+                if (vesselObj.CompareTag("Armor"))
+                {
+                    isArmored = true;
+                    transform.position = vesselObj.transform.position;
+                    originVesselPosition = vesselObj.transform.position;
+                    vesselObj.transform.parent.gameObject.SetActive(false);
+                }
+                else if (vesselObj.CompareTag("HidingSpot"))
+                {
+                    isHidden = true;
+                    // Dissappear when hidden
+                    transform.position = vesselObj.transform.position;
+                    gameObject.GetComponent<Renderer>().enabled = false;
+                }
+            }
+            // Desactiva la posesion de objeto
+            else if (Input.GetKeyDown(KeyCode.G) && possessSwitch && !isInAirCurrent)
+            {
+                movement.x = 0;
+                movement.y = 0;
+                GravityOff();
+                if (currentVesselObject.CompareTag("Armor"))
+                {
+                    isArmored = false;
+                    currentVesselObject.transform.parent.position = transform.position;
+                    currentVesselObject.transform.parent.gameObject.SetActive(true);
+                    currentVesselObject = null;
+                }
+                else
+                {
+                    // Hiding spot
+                    isHidden = false;
+                    gameObject.GetComponent<Renderer>().enabled = true;
+                }
+                currentVesselObject = null;
+            }
+
+            if (isInCandleLight && !isArmored)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
     }
-
     private void GravityOn()
     {
         rb.gravityScale = 50;
         possessSwitch = true;
+
         // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
         Physics2D.IgnoreLayerCollision(3, 6, false);
+
     }
 
     private void GravityOff()
