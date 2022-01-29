@@ -40,6 +40,15 @@ public class CharacterController : MonoBehaviour {
             movement.x = Input.GetAxisRaw("Horizontal");
         }
 
+        if (movement.normalized.x == -1)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else if (movement.normalized.x == 1)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+
         //Activa la posesion de un objeto
         if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselInRange) {
             GravityOn();
@@ -83,7 +92,6 @@ public class CharacterController : MonoBehaviour {
     private void GravityOn() {
         rb.gravityScale = 50;
         possessSwitch = true;
-
     }
 
     private void GravityOff() {
@@ -100,7 +108,6 @@ public class CharacterController : MonoBehaviour {
             if (!possessSwitch && !isHidden) {
                 rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
                 //Debug.Log(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
-
             }
             else if (!isHidden) {
                 rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
@@ -141,5 +148,5 @@ public class CharacterController : MonoBehaviour {
     public void setAirCurrentDirection( Vector2 direction, bool status ) {
         isInAirCurrent = status;
         movementAir = direction;
-        }
+    }
 }

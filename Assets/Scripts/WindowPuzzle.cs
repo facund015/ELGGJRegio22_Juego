@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
-public class Window : MonoBehaviour
+public class WindowPuzzle : MonoBehaviour
 {
     public Transform lightPivot;
     public Vector2 boxSize;
@@ -12,7 +12,7 @@ public class Window : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -29,7 +29,7 @@ public class Window : MonoBehaviour
             Debug.DrawLine(lightPivot.position, hit.point, Color.red);
             if (hit.transform.tag == "Player")
             {
-                hit.transform.SendMessage("HitByLight", false);
+                hit.transform.SendMessage("HitByLight", true);
             }
         }
         else
