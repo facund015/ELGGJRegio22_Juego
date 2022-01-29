@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class EnemyAI : MonoBehaviour
+public class GhostEnemyAI : MonoBehaviour
 {
     public Transform target;
     public EnemyDetectionZone EDZ;
 
     private Vector2 originPosition;
-    private bool inOrigin = true;
-    private bool returningToOrigin = false;
 
     private Seeker seeker;
     private Path path;
