@@ -8,7 +8,6 @@ public class CharacterController : MonoBehaviour
 
     private Vector2 movement;
     private Vector2 movementAir;
-    private Vector2 originVesselPosition;
 
     private bool isInAirCurrent = false;
     private bool isInCandleLight = false;
@@ -16,13 +15,18 @@ public class CharacterController : MonoBehaviour
     private bool possessSwitch = false;
     public bool isArmored = false;
     public bool isHidden = false;
+    public bool hasMirror = false;
     public bool vesselInRange = false;
-    bool intangible = false;
+    public bool mirrorInRange = false;
+    //bool intangible = false;
 
     private Rigidbody2D rb;
 
     GameObject vesselObj;
+    GameObject mirrorObject;
     GameObject currentVesselObject;
+    GameObject currentMirrorObject;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,7 +37,6 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         // Intangibility 
-<<<<<<< HEAD
         //if (Input.GetKeyDown(KeyCode.T))
         //{
         //    intangible = !intangible;
@@ -49,20 +52,6 @@ public class CharacterController : MonoBehaviour
         //Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
         else
         {
-=======
-        if (Input.GetKeyDown(KeyCode.T)) {
-            intangible = !intangible;
-            // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
-            Physics2D.IgnoreLayerCollision(3, 6, intangible);
-        }
-        // Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
-        if (!possessSwitch) {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
-        }
-        // Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
-        else {
->>>>>>> 89c08e9a596eb77d3f2375b7639590634ec417bb
             movement.x = Input.GetAxisRaw("Horizontal");
         }
 
@@ -78,16 +67,37 @@ public class CharacterController : MonoBehaviour
             {
                 isArmored = true;
                 transform.position = vesselObj.transform.position;
-                originVesselPosition = vesselObj.transform.position;
+                Vessel armor = vesselObj.GetComponentInParent<Vessel>();
+                if (armor.hasMirror)
+                {
+                    currentMirrorObject = armor.mirror;
+                    armor.mirror = null;
+                    hasMirror = true;
+                }
                 vesselObj.transform.parent.gameObject.SetActive(false);
             }
             else if (vesselObj.CompareTag("HidingSpot"))
             {
                 isHidden = true;
                 // Dissappear when hidden
-                transform.position = vesselObj.transform.position;
                 gameObject.GetComponent<Renderer>().enabled = false;
-            } 
+            }
+            //else if (vesselObj.CompareTag("Mirror"))
+            //{
+            //    if (isArmored)
+            //    {
+            //        transform.position = vesselObj.transform.position;
+            //    }
+            //}
+        } else if (Input.GetKeyDown(KeyCode.G) && mirrorInRange && isArmored)
+        {
+            currentMirrorObject = mirrorObject;
+            if (!hasMirror)
+            {
+                hasMirror = true;
+                transform.position = mirrorObject.transform.position;
+                mirrorObject.transform.parent.gameObject.SetActive(false);
+            }
         }
         // Desactiva la posesion de objeto
         else if (Input.GetKeyDown(KeyCode.G) && possessSwitch && !isInAirCurrent)
@@ -100,7 +110,15 @@ public class CharacterController : MonoBehaviour
                 isArmored = false;
                 currentVesselObject.transform.parent.position = transform.position;
                 currentVesselObject.transform.parent.gameObject.SetActive(true);
+                Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
+                if (hasMirror)
+                {
+                    armor.hasMirror = true;
+                    armor.mirror = currentMirrorObject;
+                    hasMirror = false;
+                }
                 currentVesselObject = null;
+                currentMirrorObject = null;
             }
             else
             {
@@ -171,17 +189,35 @@ public class CharacterController : MonoBehaviour
             vesselObj = collision.gameObject;
             vesselInRange = true;
         }
+
+        if (collision.gameObject.CompareTag("Mirror"))
+        {
+            mirrorObject = collision.gameObject;
+            mirrorInRange = true;
+        }
+
         if (collision.gameObject.CompareTag("Ghost"))
         {
             if (isArmored)
             {
                 GravityOff();
                 currentVesselObject.transform.parent.gameObject.SetActive(true);
-                Armor armor = currentVesselObject.GetComponentInParent<Armor>();
+                currentMirrorObject.transform.parent.gameObject.SetActive(true);
+                Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
+                Vessel mirror = currentMirrorObject.GetComponentInParent<Vessel>();
                 armor.resetPosition();
+                mirror.resetPosition();
+
+                armor.hasMirror = false;
+                armor.mirror = null;
+
                 currentVesselObject = null;
+                currentMirrorObject = null;
+
+                hasMirror = false;
             }
         }
+
         if (collision.gameObject.CompareTag("Skeleton"))
         {
             isInCandleLight = true;
@@ -197,29 +233,17 @@ public class CharacterController : MonoBehaviour
             vesselObj = null;
         }
 
+        if (collision.gameObject.CompareTag("Mirror"))
+        {
+            mirrorInRange = false;
+            mirrorObject = null;
+        }
+
         if (collision.gameObject.CompareTag("Skeleton"))
         {
             isInCandleLight = false;
         }
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Skeleton"))
-    //    {
-    //        if (isArmored)
-    //        {
-    //            Collider2D skeletonCollider = collision.gameObject.GetComponent<Collider2D>();
-    //            Collider2D playerCollider = GetComponent<Collider2D>();
-    //            Physics2D.IgnoreCollision(skeletonCollider, playerCollider, true);
-    //        } else
-    //        {
-    //            Collider2D skeletonCollider = collision.gameObject.GetComponent<Collider2D>();
-    //            Collider2D playerCollider = GetComponent<Collider2D>();
-    //            Physics2D.IgnoreCollision(skeletonCollider, playerCollider, false);
-    //        }
-    //    }
-    //}
 
     public void setAirCurrentDirection(Vector2 direction, bool status)
     {
