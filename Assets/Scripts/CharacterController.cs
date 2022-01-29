@@ -33,12 +33,12 @@ public class CharacterController : MonoBehaviour {
             // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
             Physics2D.IgnoreLayerCollision(3, 6, intangible);
         }
-        //Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
+        // Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
         if (!possessSwitch) {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
         }
-        //Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
+        // Recolecta solo el input horizontal cuando el switch de gravedad esta encendido
         else {
             movement.x = Input.GetAxisRaw("Horizontal");
         }
