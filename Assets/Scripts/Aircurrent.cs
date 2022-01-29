@@ -15,17 +15,17 @@ public class Aircurrent : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (player != null)
-        {
-            CharacterController playerController = player.GetComponent<CharacterController>();
-            if (!playerController.isArmored)
-            {
-                playerController.setAirCurrentDirection(movement, true);
-            }
-        }
-    }
+    //void FixedUpdate()
+    //{
+    //    if (player != null)
+    //    {
+    //        CharacterController playerController = player.GetComponent<CharacterController>();
+    //        if (!playerController.isArmored)
+    //        {
+    //            playerController.setAirCurrentDirection(movement, true);
+    //        }
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
