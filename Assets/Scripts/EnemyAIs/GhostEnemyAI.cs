@@ -62,7 +62,7 @@ public class GhostEnemyAI : MonoBehaviour
     // Update is called once per frame
     public void FixedUpdate()
     {
-        if (EDZ.hasPlayer)
+        if (EDZ.hasPlayer && EDZ.playerHasArmor)
         {
             if (Time.time > lastRepath + repathRate && seeker.IsDone())
             {

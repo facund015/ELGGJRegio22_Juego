@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: [Armor, Enemy, Vessel, Ground, HidingSpot, Skeleton, Ghost]
+  tags:
+  - Armor
+  - Enemy
+  - Vessel
+  - Ground
+  - HidingSpot
+  - Skeleton
+  - Ghost
   layers:
   - Default
   - TransparentFX
@@ -15,7 +22,7 @@ TagManager:
   - Vessel
   - Ground
   - Light Emiter
-  - 
+  - Skeleton
   - 
   - 
   - 
