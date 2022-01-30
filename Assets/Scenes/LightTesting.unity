@@ -1126,6 +1126,9 @@ MonoBehaviour:
   cam: {fileID: 1433613909}
   shield: {fileID: 1329328167}
   lineRender: {fileID: 2124954887}
+  mask:
+    serializedVersion: 2
+    m_Bits: 72
   inLight: 0
 --- !u!4 &1768895752 stripped
 Transform:
@@ -1199,6 +1202,10 @@ PrefabInstance:
       propertyPath: shieldPos
       value: 
       objectReference: {fileID: 654343349}
+    - target: {fileID: 8955824107180153836, guid: 69c7f3f0c6a427246af487cf9de7505b, type: 3}
+      propertyPath: mask.m_Bits
+      value: 72
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69c7f3f0c6a427246af487cf9de7505b, type: 3}
 --- !u!1 &1910939559
