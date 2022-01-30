@@ -70,7 +70,7 @@ public class LightManager : MonoBehaviour
         {
             RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 100f);
             DrawLight(shieldPos, hit.point);
-            lastHitPoint = hit.point;
+            lastHitPoint = mousePos;
 
             //Debug.DrawRay(shield.position, mousePos, Color.blue);
             Debug.DrawLine(shield.position, hit.point, Color.red);

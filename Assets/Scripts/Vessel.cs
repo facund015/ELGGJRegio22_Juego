@@ -26,7 +26,11 @@ public class Vessel : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(shieldPos.position, lastHit, 100f);
             if (hit.point != null)
             {
-                Debug.Log("haha");
+                float angle = Vector2.Angle(shieldPos.position, hit.point);
+                Debug.Log(angle);
+                float distance = Vector2.Distance(shieldPos.position, hit.point);
+                aoe.offset = new Vector2(0, distance / 2f);
+                aoe.size = new Vector2(aoe.size.x, distance);
                 Debug.DrawLine(shieldPos.position, hit.point, Color.blue);
             }
         }
