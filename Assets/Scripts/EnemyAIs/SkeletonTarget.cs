@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkeletonTarget : MonoBehaviour
 {
 
-    public SkeletonEnemyAI parent;
+    public SkeletonAnchors parent;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -1,12 +1,12 @@
 using UnityEngine;
 using Pathfinding;
 
-public class GhostEnemyAI : MonoBehaviour
+public class SkeletonAI : MonoBehaviour
 {
-    public Transform target;
-    public EnemyDetectionZone EDZ;
 
-    private Vector2 originPosition;
+    private Animator animator;
+
+    public Transform target;
 
     private Seeker seeker;
     private Path path;
@@ -17,9 +17,7 @@ public class GhostEnemyAI : MonoBehaviour
     private int currentWaypoint = 0;
 
     private float repathRate = 0.1f;
-    private float repathRateIdle = 3f;
     private float lastRepath = float.NegativeInfinity;
-    private float lastRepathIdle = float.NegativeInfinity;
 
     private bool reachedEndOfPath;
 
@@ -28,9 +26,7 @@ public class GhostEnemyAI : MonoBehaviour
     void Start()
     {
         seeker = GetComponent<Seeker>();
-        originPosition = new Vector2(transform.position.x, transform.position.y);
-        Debug.Log(originPosition);
-        //seeker.StartPath(transform.position, targetPosition.position, OnPathComplete);
+        animator = GetComponent<Animator>();
     }
 
     public void OnPathComplete(Path p)
@@ -60,30 +56,13 @@ public class GhostEnemyAI : MonoBehaviour
     // Update is called once per frame
     public void FixedUpdate()
     {
-        if (EDZ.hasPlayer && EDZ.playerHasArmor)
+
+        if (Time.time > lastRepath + repathRate && seeker.IsDone())
         {
-            if (Time.time > lastRepath + repathRate && seeker.IsDone())
-            {
-                speed = 2.5f;
-                lastRepath = Time.time;
-                seeker.StartPath(transform.position, target.position, OnPathComplete);
-            }
-            lastRepathIdle = Time.time-repathRateIdle;
-        } else
-        {
-            if (Time.time > lastRepathIdle + repathRateIdle && seeker.IsDone())
-            {
-                speed = 0.5f;
-                lastRepathIdle = Time.time;
-                Vector2 randomPos = originPosition + Random.insideUnitCircle * 2;
-                seeker.StartPath(transform.position, randomPos, OnPathComplete);
-            }
-            lastRepath = Time.time + 0.3f;
-        }
-
-        //seeker.StartPath(transform.position, targetPosition.position, OnPathComplete)
-
-
+            speed = 2.5f;
+            lastRepath = Time.time;
+            seeker.StartPath(transform.position, target.position, OnPathComplete);
+        }        
 
 
         if (path == null)
@@ -126,18 +105,25 @@ public class GhostEnemyAI : MonoBehaviour
 
         var speedFactor = reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
         Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
-        Vector3 velocity = dir * speed * speedFactor;
+        Vector3 velocity = dir * speed;
+        velocity.y = 0;
 
         transform.position += velocity * Time.deltaTime;
 
-        if (velocity.x >= 0.01f)
+        if (velocity.x >= 0.1f)
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
-        } else if (velocity.x <= -0.01f)
+            animator.SetFloat("Speed", 1f);
+        }
+        else if (velocity.x <= -0.1f)
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
+            animator.SetFloat("Speed", 1f);
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
         }
 
     }
-
 }
