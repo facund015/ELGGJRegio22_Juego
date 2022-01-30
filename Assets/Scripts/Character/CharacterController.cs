@@ -118,11 +118,16 @@ public class CharacterController : MonoBehaviour {
                     GameObject rootVesselObj = currentVesselObject.transform.parent.gameObject;
                     rootVesselObj.GetComponent<Armor>().SetShieldSprite(hasMirror);
                     rootVesselObj.GetComponent<Armor>().transform.eulerAngles = transform.eulerAngles;
-
+                    
                     isArmored = false;
                     currentVesselObject.transform.parent.position = transform.position;
                     currentVesselObject.transform.parent.gameObject.SetActive(true);
+
+                    // Move Will a few units ahead of armor to prevent him from spawning at the wrong place
+                    gameObject.transform.position = rootVesselObj.GetComponent<Armor>().exitPoint.position;
+
                     Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
+
                     if (hasMirror) {
                         armor.hasMirror = true;
                         armor.mirror = currentMirrorObject;
