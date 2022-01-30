@@ -32,8 +32,14 @@ public class CharacterController : MonoBehaviour {
         Physics2D.IgnoreLayerCollision(3, 6, true);
     }
 
+    void SpawnToIdle() {
+        if (animator.IsInTransition(0)) {
+            animator.SetBool("spawned", true);
+        }
+    }
+
     void Update() {
-       
+        //SpawnToIdle();
         //Recolecta los inputs vetical y horizontal del jugador cuando el switch de gravedad esta apagado
         if (!possessSwitch) {
             movement.x = Input.GetAxisRaw("Horizontal");
@@ -112,6 +118,8 @@ public class CharacterController : MonoBehaviour {
         if (isInCandleLight && !isArmored) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        
+        animator.SetFloat("speed", Mathf.Abs(movement.x));
     }
 
     private void GravityOn() {
