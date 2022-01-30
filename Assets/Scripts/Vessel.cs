@@ -23,7 +23,7 @@ public class Vessel : MonoBehaviour
     {
         if (armorInLight)
         {
-            RaycastHit2D hit = Physics2D.Raycast(shieldPos.position, lastHit, 100f, 3);
+            RaycastHit2D hit = Physics2D.Raycast(shieldPos.position, lastHit, 1000f, 3);
             if (hit.point != null)
             {
                 Debug.DrawLine(shieldPos.position, hit.point, Color.blue);
