@@ -25,6 +25,7 @@ public class CharacterController : MonoBehaviour {
     public bool hasMirror = false;
     public bool vesselInRange = false;
     public bool mirrorInRange = false;
+    public Vessel armor;
     //bool intangible = false;
 
     private Rigidbody2D rb;
@@ -79,11 +80,7 @@ public class CharacterController : MonoBehaviour {
             if (vesselObj.CompareTag("Armor")) {
                 isArmored = true;
                 transform.position = vesselObj.transform.position;
-
-                spirit.SetActive(false);
-                knight.SetActive(true);
-                
-                Vessel armor = vesselObj.GetComponentInParent<Vessel>();
+                armor = vesselObj.GetComponentInParent<Vessel>();
                 if (armor.hasMirror) {
                     currentMirrorObject = armor.mirror;
                     armor.mirror = null;

@@ -4,14 +4,32 @@ using UnityEngine;
 
 public class Vessel : MonoBehaviour
 {
-
-    private Vector2 originPosition;
+    public Transform shieldPos;
     public bool hasMirror;
     public GameObject mirror;
-    // Start is called before the first frame update
+    public Vector2 lastHit;
+    public bool armorInLight = false;
+    public BoxCollider2D aoe;
+
+    private Vector2 originPosition;
+
     void Start()
     {
         originPosition = transform.position;
+        armorInLight = false;
+    }
+
+    private void Update()
+    {
+        if (armorInLight)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(shieldPos.position, lastHit, 100f);
+            if (hit.point != null)
+            {
+                Debug.Log("haha");
+                Debug.DrawLine(shieldPos.position, hit.point, Color.blue);
+            }
+        }
     }
 
     public void resetPosition()

@@ -7,6 +7,7 @@ public class Window : MonoBehaviour
     public Transform lightPivot;
     public Vector2 boxSize;
     public float maxDistance;
+    public BoxCollider2D aoe;
 
     void Start()
     {
@@ -24,11 +25,10 @@ public class Window : MonoBehaviour
 
         if (hit.point != null)
         {
+            float distance = Vector2.Distance(lightPivot.position, hit.point);
+            aoe.offset = new Vector2(0, distance / 2f);
+            aoe.size = new Vector2(aoe.size.x, distance);
             Debug.DrawLine(lightPivot.position, hit.point, Color.red);
-            if (hit.transform.tag == "Player")
-            {
-                hit.transform.SendMessage("HitByLight", false);
-            }
         }
     }
 }

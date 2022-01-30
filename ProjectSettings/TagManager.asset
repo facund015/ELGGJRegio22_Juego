@@ -12,6 +12,8 @@ TagManager:
   - Skeleton
   - Ghost
   - Mirror
+  - Light Area
+  - Light Puzzle
   - Shield
   layers:
   - Default
