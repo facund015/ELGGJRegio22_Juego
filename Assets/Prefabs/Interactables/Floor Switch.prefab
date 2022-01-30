@@ -39,9 +39,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3313066132190352966}
+  - component: {fileID: 9137315425328401498}
   - component: {fileID: 3313066132190352961}
   - component: {fileID: 3313066132190352967}
-  - component: {fileID: 9137315425328401498}
   m_Layer: 0
   m_Name: Floor Switch
   m_TagString: HidingSpot
