@@ -7,12 +7,17 @@ public class CharacterController : MonoBehaviour {
 
     private Vector2 movement;
     private Vector2 movementAir;
-    public Animator animator;
+
     private bool isInAirCurrent = false;
     private bool isInCandleLight = false;
 
     // used for animation states
     bool entered = true;
+
+    public GameObject spirit;
+    public GameObject knight;
+    Animator spiritAnimator;
+    Animator knightAnimator;
 
     private bool possessSwitch = false;
     public bool isArmored = false;
@@ -33,6 +38,9 @@ public class CharacterController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         Physics2D.IgnoreLayerCollision(3, 10);
         Physics2D.IgnoreLayerCollision(3, 6, true);
+        spiritAnimator = spirit.GetComponent<Animator>();
+        knightAnimator = knight.GetComponent<Animator>();
+        knight.SetActive(false);
     }
 
 
@@ -48,12 +56,10 @@ public class CharacterController : MonoBehaviour {
             movement.x = Input.GetAxisRaw("Horizontal");
         }
 
-        if (movement.normalized.x == -1)
-        {
+        if (movement.normalized.x == -1) {
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
-        else if (movement.normalized.x == 1)
-        {
+        else if (movement.normalized.x == 1) {
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
 
@@ -67,7 +73,10 @@ public class CharacterController : MonoBehaviour {
             if (vesselObj.CompareTag("Armor")) {
                 isArmored = true;
                 transform.position = vesselObj.transform.position;
-                
+
+                spirit.SetActive(false);
+                knight.SetActive(true);
+
                 Vessel armor = vesselObj.GetComponentInParent<Vessel>();
                 if (armor.hasMirror) {
                     currentMirrorObject = armor.mirror;
@@ -81,13 +90,7 @@ public class CharacterController : MonoBehaviour {
                 // Dissappear when hidden
                 gameObject.GetComponent<Renderer>().enabled = false;
             }
-            //else if (vesselObj.CompareTag("Mirror"))
-            //{
-            //    if (isArmored)
-            //    {
-            //        transform.position = vesselObj.transform.position;
-            //    }
-            //}
+
         }
         else if (Input.GetKeyDown(KeyCode.G) && mirrorInRange && isArmored) {
             currentMirrorObject = mirrorObject;
@@ -103,6 +106,9 @@ public class CharacterController : MonoBehaviour {
             movement.y = 0;
             GravityOff();
             if (currentVesselObject.CompareTag("Armor")) {
+                spirit.SetActive(true);
+                knight.SetActive(false);
+
                 isArmored = false;
                 currentVesselObject.transform.parent.position = transform.position;
                 currentVesselObject.transform.parent.gameObject.SetActive(true);
@@ -126,9 +132,10 @@ public class CharacterController : MonoBehaviour {
         if (isInCandleLight && !isArmored) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-        
-        animator.SetFloat("speed", Mathf.Abs(movement.x));
-        animator.SetBool("armored", isArmored);
+
+        spiritAnimator.SetFloat("speed", Mathf.Abs(movement.x));
+        knightAnimator.SetFloat("speed", Mathf.Abs(movement.x));
+        knightAnimator.SetBool("armored", isArmored);
     }
 
     private void GravityOn() {
@@ -230,10 +237,10 @@ public class CharacterController : MonoBehaviour {
     }
 
     public void SetKnightEntered() {
-        animator.SetBool("knight_entered", true);
+        knightAnimator.SetBool("knight_entered", true);
     }
 
     public void SetSpawned() {
-        animator.SetBool("spawned", true);
+        spiritAnimator.SetBool("spawned", true);
     }
 }
