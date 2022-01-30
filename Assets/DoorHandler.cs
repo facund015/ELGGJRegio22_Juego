@@ -18,7 +18,7 @@ public class DoorHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (checks.All(x => true))
+        if (checks.All(x => x))
         {
             opened = true;
             animator.SetBool("Opened", true);
