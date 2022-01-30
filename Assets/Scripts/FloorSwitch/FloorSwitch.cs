@@ -25,6 +25,9 @@ public class FloorSwitch : MonoBehaviour {
             if (colls[i].gameObject.CompareTag("Player")) {
                 engaged = colls[i].gameObject.GetComponent<CharacterController>().isArmored;
             }
+            else if (colls[i].gameObject.CompareTag("Armor")) {
+                engaged = true;
+            }
         }
     }
 
