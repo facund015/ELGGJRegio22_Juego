@@ -8,17 +8,18 @@ public class DoorHandler : MonoBehaviour
 
     Animator animator;
 
+    public bool Porticullis = false;
     public List<bool> checks = new List<bool>();
     public bool opened;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        
     }
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(checks[0]);
         if (checks.All(x => x))
         {
             opened = true;
@@ -27,6 +28,19 @@ public class DoorHandler : MonoBehaviour
         {
             opened = false;
             animator.SetBool("Opened", false);
+        }
+
+        if (Porticullis)
+        {
+            Collider2D collider = GetComponent<Collider2D>();
+            if (opened)
+            {
+                collider.isTrigger = true;
+            }
+            else
+            {
+                collider.isTrigger = false;
+            }
         }
     }
 }
