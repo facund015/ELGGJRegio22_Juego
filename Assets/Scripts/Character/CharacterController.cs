@@ -48,6 +48,15 @@ public class CharacterController : MonoBehaviour {
             movement.x = Input.GetAxisRaw("Horizontal");
         }
 
+        if (movement.normalized.x == -1)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else if (movement.normalized.x == 1)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+
         //Activa la posesion de un objeto
         if (Input.GetKeyDown(KeyCode.G) && !possessSwitch && vesselInRange) {
             GravityOn();
