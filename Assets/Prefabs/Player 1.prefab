@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 8019791502750096602}
   - component: {fileID: 8019791502750096601}
   - component: {fileID: 8019791502750096599}
+  - component: {fileID: -825570694513553875}
   m_Layer: 3
   m_Name: Player 1
   m_TagString: Player
@@ -397,3 +398,19 @@ MonoBehaviour:
   vesselInRange: 0
   mirrorInRange: 0
   armor: {fileID: 0}
+--- !u!114 &-825570694513553875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019791502750096600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32231908ad638f49beea86ed83a5566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  shield: {fileID: 0}
+  lineRender: {fileID: 0}
+  inLight: 0
