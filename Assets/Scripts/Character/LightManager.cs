@@ -8,7 +8,6 @@ public class LightManager : MonoBehaviour
     public Camera cam;
     public Transform shield;
     public LineRenderer lineRender;
-    public float maxDistance;
 
     private CharacterController cc;
     private Vector3 mousePos;
@@ -26,7 +25,7 @@ public class LightManager : MonoBehaviour
 
     void HitByLight(bool puzzleWindow)
     {
-        if (cc.isArmored && puzzleWindow)
+        if (cc.isArmored && cc.hasMirror && puzzleWindow)
         {
             RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 100f);
 
