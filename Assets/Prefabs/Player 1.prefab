@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 72953186}
   - component: {fileID: 72953188}
   - component: {fileID: 72953187}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpiritSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 887154023}
   - component: {fileID: 887154022}
   - component: {fileID: 887154021}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: KnightSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 8019791502750096602}
   - component: {fileID: 8019791502750096601}
   - component: {fileID: 8019791502750096599}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player 1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -396,3 +396,4 @@ MonoBehaviour:
   hasMirror: 0
   vesselInRange: 0
   mirrorInRange: 0
+  armor: {fileID: 0}
