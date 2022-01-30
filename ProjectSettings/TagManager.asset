@@ -12,6 +12,7 @@ TagManager:
   - Skeleton
   - Ghost
   - Mirror
+  - Shield
   layers:
   - Default
   - TransparentFX

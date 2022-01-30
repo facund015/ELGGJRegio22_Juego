@@ -70,13 +70,19 @@ public class CharacterController : MonoBehaviour {
             currentVesselObject = vesselObj;
             movement.x = 0;
             movement.y = 0;
+
+            if (vesselObj.CompareTag("Mirror")) {
+                hasMirror = true;
+                
+            }
+
             if (vesselObj.CompareTag("Armor")) {
                 isArmored = true;
                 transform.position = vesselObj.transform.position;
 
                 spirit.SetActive(false);
                 knight.SetActive(true);
-
+                
                 Vessel armor = vesselObj.GetComponentInParent<Vessel>();
                 if (armor.hasMirror) {
                     currentMirrorObject = armor.mirror;
@@ -108,7 +114,10 @@ public class CharacterController : MonoBehaviour {
             if (currentVesselObject.CompareTag("Armor")) {
                 spirit.SetActive(true);
                 knight.SetActive(false);
-
+                
+                // If player has shield then enable shield sprite on armor object 
+                currentVesselObject.transform.parent.GetComponent<Armor>().SetShieldSprite(hasMirror);
+                
                 isArmored = false;
                 currentVesselObject.transform.parent.position = transform.position;
                 currentVesselObject.transform.parent.gameObject.SetActive(true);
@@ -136,6 +145,7 @@ public class CharacterController : MonoBehaviour {
         spiritAnimator.SetFloat("speed", Mathf.Abs(movement.x));
         knightAnimator.SetFloat("speed", Mathf.Abs(movement.x));
         knightAnimator.SetBool("armored", isArmored);
+        knightAnimator.SetBool("shield", hasMirror);
     }
 
     private void GravityOn() {
@@ -236,11 +246,4 @@ public class CharacterController : MonoBehaviour {
         movementAir = direction;
     }
 
-    public void SetKnightEntered() {
-        knightAnimator.SetBool("knight_entered", true);
-    }
-
-    public void SetSpawned() {
-        spiritAnimator.SetBool("spawned", true);
-    }
 }
