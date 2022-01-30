@@ -7,6 +7,8 @@ public class FloorSwitch : MonoBehaviour {
     public bool engaged;
     private int pos;
     public Animator animator;
+    public float radius = 0.1f;
+    public Transform sensor;    
     void Start() {
         door.checks.Add(false);
         pos = door.checks.Count-1;
@@ -16,19 +18,15 @@ public class FloorSwitch : MonoBehaviour {
     void Update() {
         animator.SetBool("Active", engaged);
         door.checks[pos] = engaged;
-    }
 
-    private void OnTriggerEnter2D( Collider2D other ) {
-        if (other.CompareTag("Player")) {
-            engaged = other.GetComponent<CharacterController>().isArmored;
-            animator.SetBool("Active", true);
+        Collider2D[] colls = Physics2D.OverlapCircleAll(sensor.position, radius);
+        engaged = false;
+        for (int i=0; i<colls.Length; i++) {
+            if (colls[i].gameObject.CompareTag("Player")) {
+                engaged = colls[i].gameObject.GetComponent<CharacterController>().isArmored;
+            }
         }
     }
 
-    private void OnTriggerExit2D( Collider2D collision ) {
-        if (collision.CompareTag("Player")) {
-            engaged = !collision.GetComponent<CharacterController>().isArmored;
-            animator.SetBool("Active", engaged);
-        }
-    }
+    
 }
