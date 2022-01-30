@@ -79,6 +79,7 @@ public class CharacterController : MonoBehaviour {
 
             if (vesselObj.CompareTag("Armor")) {
                 isArmored = true;
+                ToggleForm(false);
                 transform.position = vesselObj.transform.position;
                 armor = vesselObj.GetComponentInParent<Vessel>();
                 if (armor.hasMirror) {
@@ -174,14 +175,6 @@ public class CharacterController : MonoBehaviour {
         }
         else {
             rb.MovePosition(rb.position + ((movementAir.normalized * 3f) + movement.normalized * 2f) * Time.fixedDeltaTime);
-            //if (!possessSwitch && !isHidden)
-            //{
-            //    rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
-            //}
-            //else if (!isHidden)
-            //{
-            //    rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
-            //}
         }
     }
     private void OnTriggerEnter2D( Collider2D collision ) {
@@ -198,15 +191,20 @@ public class CharacterController : MonoBehaviour {
 
         if (collision.gameObject.CompareTag("Ghost")) {
             if (isArmored) {
+                ToggleForm(true);
                 GravityOff();
+                if (currentMirrorObject != null) {
+                    currentMirrorObject.transform.parent.gameObject.SetActive(true);
+                    Vessel mirror = currentMirrorObject.GetComponentInParent<Vessel>();
+                    mirror.resetPosition();
+                }
                 currentVesselObject.transform.parent.gameObject.SetActive(true);
-                currentMirrorObject.transform.parent.gameObject.SetActive(true);
                 Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
-                Vessel mirror = currentMirrorObject.GetComponentInParent<Vessel>();
                 armor.resetPosition();
-                mirror.resetPosition();
 
                 armor.hasMirror = false;
+                currentVesselObject.transform.parent.GetComponent<Armor>().SetShieldSprite(false);
+                
                 armor.mirror = null;
 
                 currentVesselObject = null;
@@ -243,4 +241,9 @@ public class CharacterController : MonoBehaviour {
         movementAir = direction;
     }
 
+    // True for spirit, false for ghost
+    void ToggleForm(bool set) {
+        spirit.SetActive(set);
+        knight.SetActive(!set);
+    }
 }
