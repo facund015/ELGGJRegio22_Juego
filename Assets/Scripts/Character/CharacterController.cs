@@ -11,6 +11,9 @@ public class CharacterController : MonoBehaviour {
     private bool isInAirCurrent = false;
     private bool isInCandleLight = false;
 
+    // used for animation states
+    bool entered = true;
+
     private bool possessSwitch = false;
     public bool isArmored = false;
     public bool isHidden = false;
@@ -32,11 +35,6 @@ public class CharacterController : MonoBehaviour {
         Physics2D.IgnoreLayerCollision(3, 6, true);
     }
 
-    void SpawnToIdle() {
-        if (animator.IsInTransition(0)) {
-            animator.SetBool("spawned", true);
-        }
-    }
 
     void Update() {
         //SpawnToIdle();
@@ -60,6 +58,7 @@ public class CharacterController : MonoBehaviour {
             if (vesselObj.CompareTag("Armor")) {
                 isArmored = true;
                 transform.position = vesselObj.transform.position;
+                
                 Vessel armor = vesselObj.GetComponentInParent<Vessel>();
                 if (armor.hasMirror) {
                     currentMirrorObject = armor.mirror;
@@ -120,10 +119,11 @@ public class CharacterController : MonoBehaviour {
         }
         
         animator.SetFloat("speed", Mathf.Abs(movement.x));
+        animator.SetBool("armored", isArmored);
     }
 
     private void GravityOn() {
-        rb.gravityScale = 50;
+        rb.gravityScale = 25;
         possessSwitch = true;
         // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
         Physics2D.IgnoreLayerCollision(3, 6, false);
@@ -218,5 +218,13 @@ public class CharacterController : MonoBehaviour {
     public void setAirCurrentDirection( Vector2 direction, bool status ) {
         isInAirCurrent = status;
         movementAir = direction;
+    }
+
+    public void SetKnightEntered() {
+        animator.SetBool("knight_entered", true);
+    }
+
+    public void SetSpawned() {
+        animator.SetBool("spawned", true);
     }
 }
