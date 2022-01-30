@@ -1,47 +1,32 @@
 using UnityEngine;
 
-public class Aircurrent : MonoBehaviour
-{
+public class Aircurrent : MonoBehaviour {
 
     public Vector2 movement;
 
-    GameObject player;
+    GameObject player = null;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        movement.x = -1.0f;
+    void Start() {
+        movement.x = -1000.0f;
         movement.y = 0.0f;
     }
 
-    // Update is called once per frame
-    //void FixedUpdate()
-    //{
-    //    if (player != null)
-    //    {
-    //        CharacterController playerController = player.GetComponent<CharacterController>();
-    //        if (!playerController.isArmored)
-    //        {
-    //            playerController.setAirCurrentDirection(movement, true);
-    //        }
-    //    }
-    //}
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
+    private void OnTriggerEnter2D( Collider2D collision ) {
+        if (collision.gameObject.CompareTag("Player")) {
             player = collision.gameObject;
             CharacterController playerController = player.GetComponent<CharacterController>();
+            if (!playerController.isArmored) {
             playerController.setAirCurrentDirection(movement, true);
-        }   
+            player.GetComponent<Rigidbody2D>().AddForce(movement);
+
+            }
+        }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            CharacterController playerController = player.GetComponent<CharacterController>();
+    private void OnTriggerExit2D( Collider2D collision ) {
+        if (collision.gameObject.CompareTag("Player")) {
+            CharacterController playerController = collision.gameObject.GetComponent<CharacterController>();
             playerController.setAirCurrentDirection(movement, false);
             player = null;
         }
