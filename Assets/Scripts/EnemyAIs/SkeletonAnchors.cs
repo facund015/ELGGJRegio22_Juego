@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonEnemyAI : MonoBehaviour
+public class SkeletonAnchors : MonoBehaviour
 {
     public Transform anchor1;
     public Transform anchor2;
