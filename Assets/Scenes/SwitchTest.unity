@@ -247,10 +247,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 163189166991977672, guid: 7a992c96570850446a214c1bda1d5156, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 163189166991977673, guid: 7a992c96570850446a214c1bda1d5156, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -303,10 +299,6 @@ PrefabInstance:
       propertyPath: door
       value: 
       objectReference: {fileID: 1928737454}
-    - target: {fileID: 163189166991977675, guid: 7a992c96570850446a214c1bda1d5156, type: 3}
-      propertyPath: sensor
-      value: 
-      objectReference: {fileID: 1004477895}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a992c96570850446a214c1bda1d5156, type: 3}
 --- !u!1001 &373918158
@@ -378,11 +370,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 553112bc3f5f3e1489b55904007d3c45, type: 3}
---- !u!4 &432527389 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 163189166991977673, guid: 7a992c96570850446a214c1bda1d5156, type: 3}
-  m_PrefabInstance: {fileID: 143843094}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &616308387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,36 +1013,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f48794f7fe672548afcd23eecdf9df5, type: 3}
---- !u!1 &1004477894
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1004477895}
-  m_Layer: 0
-  m_Name: Sensor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1004477895
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004477894}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 432527389}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1871946231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2795,6 +2752,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hiding Spot 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3488939348808823102, guid: 90e28bb81e1c6bf4fb756d60228a69f5, type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 8650017180123383427}
+    - target: {fileID: 3488939348808823102, guid: 90e28bb81e1c6bf4fb756d60228a69f5, type: 3}
+      propertyPath: exitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: c819957cf2e2e0e4b96091f9572b58b6, type: 3}
+    - target: {fileID: 3488939348808823102, guid: 90e28bb81e1c6bf4fb756d60228a69f5, type: 3}
+      propertyPath: sRenderer
+      value: 
+      objectReference: {fileID: 8650017180123383429}
+    - target: {fileID: 3488939348808823102, guid: 90e28bb81e1c6bf4fb756d60228a69f5, type: 3}
+      propertyPath: enterSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 3620c607fb6d06147bc6de19035cd31d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90e28bb81e1c6bf4fb756d60228a69f5, type: 3}
 --- !u!1 &8650017180123383426 stripped
@@ -2898,3 +2871,8 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!212 &8650017180123383429 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2325859657392268573, guid: 90e28bb81e1c6bf4fb756d60228a69f5, type: 3}
+  m_PrefabInstance: {fileID: 6362484299723236252}
+  m_PrefabAsset: {fileID: 0}
