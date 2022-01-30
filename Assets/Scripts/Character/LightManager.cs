@@ -35,6 +35,7 @@ public class LightManager : MonoBehaviour
         if (inLight && Input.GetKeyDown(KeyCode.G))
         {
             cc.armor.armorInLight = true;
+            cc.armor.lastHit = mousePos;
         }
     }
 
@@ -59,8 +60,7 @@ public class LightManager : MonoBehaviour
             lineRender.SetPosition(0, new Vector2(100, 0));
             lineRender.SetPosition(1, new Vector2(100, 0));
         }
-
-        cc.armor.lastHit = lastHitPoint;
+        
         inLight = false;
     }
 
@@ -68,9 +68,8 @@ public class LightManager : MonoBehaviour
     {
         if (cc.isArmored && cc.hasMirror && puzzleWindow)
         {
-            RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 100f);
+            RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 100f, 3);
             DrawLight(shieldPos, hit.point);
-            lastHitPoint = mousePos;
 
             //Debug.DrawRay(shield.position, mousePos, Color.blue);
             Debug.DrawLine(shield.position, hit.point, Color.red);

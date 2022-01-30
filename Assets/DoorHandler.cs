@@ -8,7 +8,7 @@ public class DoorHandler : MonoBehaviour
 
     Animator animator;
 
-    private List<bool> checks = new List<bool>();
+    public List<bool> checks = new List<bool>();
     public bool opened;
 
     private void Start()
@@ -18,6 +18,7 @@ public class DoorHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(checks[0]);
         if (checks.All(x => x))
         {
             opened = true;

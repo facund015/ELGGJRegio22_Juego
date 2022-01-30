@@ -203,7 +203,7 @@ public class CharacterController : MonoBehaviour {
                     mirror.resetPosition();
                 }
                 currentVesselObject.transform.parent.gameObject.SetActive(true);
-                Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
+                armor = currentVesselObject.GetComponentInParent<Vessel>();
                 armor.resetPosition();
 
                 armor.hasMirror = false;
