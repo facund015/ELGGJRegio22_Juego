@@ -8,15 +8,16 @@ public class LightManager : MonoBehaviour
     public Camera cam;
     public Transform shield;
     public LineRenderer lineRender;
-    public LayerMask mask;
 
     private CharacterController cc;
     private Vector3 mousePos;
     private Vector2 shieldPos;
     private Vector2 lastHitPoint;
     public bool inLight = false;
-    private bool isPuzzle = false;
+    public bool isPuzzle = false;
     private bool armorInLight = false;
+    private int iFrames = 5;
+    //private int layerMask = ~(1 << 2)  | ~(1 << 3) | ~(1 << 6) | ~(1 << 7) | ~(1 << 31) | ~(1 << 31);
 
     void Start()
     {
@@ -30,7 +31,7 @@ public class LightManager : MonoBehaviour
 
         if (inLight)
         {
-            HitByLight(isPuzzle);
+            HitByLightP(isPuzzle);
         }
 
         if (inLight && Input.GetKeyDown(KeyCode.G))
@@ -65,29 +66,34 @@ public class LightManager : MonoBehaviour
         inLight = false;
     }
 
-    void HitByLight(bool puzzleWindow)
+    void HitByLightP(bool puzzleWindow)
     {
         if (cc.isArmored && cc.hasMirror && puzzleWindow)
         {
-            RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 100f, mask);
+            RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 1000f, 3);
             DrawLight(shieldPos, hit.point);
 
-            //Debug.DrawRay(shield.position, mousePos, Color.blue);
             Debug.DrawLine(shield.position, hit.point, Color.red);
 
             if (hit.transform.tag == "Crystal")
             {
                 hit.transform.SendMessage("HitByLight");
             }
-
         }
         else if (cc.isArmored)
         {
+            iFrames = 5;
             Debug.Log("Armored");
         }
         else
         {
-            Death();
+            if (iFrames != 0)
+            {
+                iFrames--;
+            } else
+            {
+                Death();
+            }
         }
     }
 

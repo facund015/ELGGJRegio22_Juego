@@ -9,9 +9,9 @@ public class Vessel : MonoBehaviour
     public GameObject mirror;
     public Vector2 lastHit;
     public bool armorInLight = false;
-    public LayerMask mask;
 
     private Vector2 originPosition;
+    private int layerMask = ~(1 << 3);
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class Vessel : MonoBehaviour
     {
         if (armorInLight)
         {
-            RaycastHit2D hit = Physics2D.Raycast(shieldPos.position, lastHit, 100f, mask);
+            RaycastHit2D hit = Physics2D.Raycast(shieldPos.position, lastHit, 1000f, 3);
             if (hit.point != null)
             {
                 Debug.DrawLine(shieldPos.position, hit.point, Color.blue);
