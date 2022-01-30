@@ -27,6 +27,11 @@ public class Vessel : MonoBehaviour
             {
                 Debug.DrawLine(shieldPos.position, hit.point, Color.blue);
             }
+
+            if (hit.transform.tag == "Crystal")
+            {
+                hit.transform.SendMessage("HitByLight");
+            }
         }
     }
 
