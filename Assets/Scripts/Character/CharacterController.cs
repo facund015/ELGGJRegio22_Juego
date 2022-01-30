@@ -79,6 +79,7 @@ public class CharacterController : MonoBehaviour {
 
             if (vesselObj.CompareTag("Armor")) {
                 isArmored = true;
+                ToggleForm(false);
                 transform.position = vesselObj.transform.position;
                 armor = vesselObj.GetComponentInParent<Vessel>();
                 if (armor.hasMirror) {
@@ -174,14 +175,6 @@ public class CharacterController : MonoBehaviour {
         }
         else {
             rb.MovePosition(rb.position + ((movementAir.normalized * 3f) + movement.normalized * 2f) * Time.fixedDeltaTime);
-            //if (!possessSwitch && !isHidden)
-            //{
-            //    rb.MovePosition(rb.position + movement.normalized * floatingSpeed * Time.fixedDeltaTime);
-            //}
-            //else if (!isHidden)
-            //{
-            //    rb.MovePosition(rb.position + movement.normalized * walkingSpeed * Time.fixedDeltaTime);
-            //}
         }
     }
     private void OnTriggerEnter2D( Collider2D collision ) {
