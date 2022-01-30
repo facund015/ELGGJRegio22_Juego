@@ -201,15 +201,20 @@ public class CharacterController : MonoBehaviour {
 
         if (collision.gameObject.CompareTag("Ghost")) {
             if (isArmored) {
+                ToggleForm(true);
                 GravityOff();
+                if (currentMirrorObject != null) {
+                    currentMirrorObject.transform.parent.gameObject.SetActive(true);
+                    Vessel mirror = currentMirrorObject.GetComponentInParent<Vessel>();
+                    mirror.resetPosition();
+                }
                 currentVesselObject.transform.parent.gameObject.SetActive(true);
-                currentMirrorObject.transform.parent.gameObject.SetActive(true);
                 Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
-                Vessel mirror = currentMirrorObject.GetComponentInParent<Vessel>();
                 armor.resetPosition();
-                mirror.resetPosition();
 
                 armor.hasMirror = false;
+                currentVesselObject.transform.parent.GetComponent<Armor>().SetShieldSprite(false);
+                
                 armor.mirror = null;
 
                 currentVesselObject = null;
@@ -246,4 +251,9 @@ public class CharacterController : MonoBehaviour {
         movementAir = direction;
     }
 
+    // True for spirit, false for ghost
+    void ToggleForm(bool set) {
+        spirit.SetActive(set);
+        knight.SetActive(!set);
+    }
 }
