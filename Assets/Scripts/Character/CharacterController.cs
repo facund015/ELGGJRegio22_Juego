@@ -74,7 +74,6 @@ public class CharacterController : MonoBehaviour {
 
             if (vesselObj.CompareTag("Mirror")) {
                 hasMirror = true;
-                
             }
 
             if (vesselObj.CompareTag("Armor")) {
@@ -86,6 +85,7 @@ public class CharacterController : MonoBehaviour {
                     currentMirrorObject = armor.mirror;
                     armor.mirror = null;
                     hasMirror = true;
+                    
                 }
                 vesselObj.transform.parent.gameObject.SetActive(false);
             }
