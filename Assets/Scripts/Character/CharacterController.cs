@@ -62,7 +62,7 @@ public class CharacterController : MonoBehaviour {
         }
 
         //Activa la posesion de un objeto
-        if (Input.GetKeyDown(KeyCode.E) && !possessSwitch && vesselInRange) {
+        if (Input.GetKeyDown(KeyCode.Space) && !possessSwitch && vesselInRange) {
             GravityOn();
             possessSwitch = true;
             currentVesselObject = vesselObj;
@@ -96,7 +96,7 @@ public class CharacterController : MonoBehaviour {
 
             }
         }
-        else if (Input.GetKeyDown(KeyCode.E) && mirrorInRange && isArmored) {
+        else if (Input.GetKeyDown(KeyCode.Space) && mirrorInRange && isArmored) {
             currentMirrorObject = mirrorObject;
             if (!hasMirror) {
                 hasMirror = true;
@@ -105,7 +105,7 @@ public class CharacterController : MonoBehaviour {
             }
         }
         // Desactiva la posesion de objeto
-        else if (Input.GetKeyDown(KeyCode.E) && possessSwitch && !isInAirCurrent) {
+        else if (Input.GetKeyDown(KeyCode.Space) && possessSwitch && !isInAirCurrent) {
             movement.x = 0;
             movement.y = 0;
             GravityOff();

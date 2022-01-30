@@ -16,6 +16,7 @@ public class LightManager : MonoBehaviour
     public bool inLight = false;
     private bool isPuzzle = false;
     private bool armorInLight = false;
+    private int iFrames = 5;
     //private int layerMask = ~(1 << 2)  | ~(1 << 3) | ~(1 << 6) | ~(1 << 7) | ~(1 << 31) | ~(1 << 31);
 
     void Start()
@@ -82,11 +83,18 @@ public class LightManager : MonoBehaviour
         }
         else if (cc.isArmored)
         {
+            iFrames = 5;
             Debug.Log("Armored");
         }
         else
         {
-            Death();
+            if (iFrames != 0)
+            {
+                iFrames--;
+            } else
+            {
+                Death();
+            }
         }
     }
 
