@@ -15,6 +15,8 @@ TagManager:
   - Light Area
   - Light Puzzle
   - Shield
+  - Undefined
+  - Crystal
   layers:
   - Default
   - TransparentFX

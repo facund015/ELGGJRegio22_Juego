@@ -73,6 +73,12 @@ public class LightManager : MonoBehaviour
 
             //Debug.DrawRay(shield.position, mousePos, Color.blue);
             Debug.DrawLine(shield.position, hit.point, Color.red);
+
+            if (hit.transform.tag == "Crystal")
+            {
+                hit.transform.SendMessage("HitByLight");
+            }
+
         }
         else if (cc.isArmored)
         {
