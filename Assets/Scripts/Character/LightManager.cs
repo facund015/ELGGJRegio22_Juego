@@ -8,6 +8,7 @@ public class LightManager : MonoBehaviour
     public Camera cam;
     public Transform shield;
     public LineRenderer lineRender;
+    public LayerMask mask;
 
     private CharacterController cc;
     private Vector3 mousePos;
@@ -68,7 +69,7 @@ public class LightManager : MonoBehaviour
     {
         if (cc.isArmored && cc.hasMirror && puzzleWindow)
         {
-            RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 100f, 3);
+            RaycastHit2D hit = Physics2D.Raycast(shieldPos, mousePos, 100f, mask);
             DrawLight(shieldPos, hit.point);
 
             //Debug.DrawRay(shield.position, mousePos, Color.blue);
