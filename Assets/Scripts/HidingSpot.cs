@@ -13,6 +13,8 @@ public class HidingSpot : MonoBehaviour {
        // Start is called before the first frame update
     public void ShowWill(bool set) {
         sRenderer.sprite = set ? will : noWill;
-
+        AudioClip temp = set ? enterSound : exitSound;
+        sound.clip = temp;
+        sound.Play();
     }
 }
