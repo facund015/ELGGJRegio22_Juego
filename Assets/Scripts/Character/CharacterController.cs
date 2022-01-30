@@ -11,9 +11,6 @@ public class CharacterController : MonoBehaviour {
     private bool isInAirCurrent = false;
     private bool isInCandleLight = false;
 
-    // used for animation states
-    bool entered = true;
-
     public GameObject spirit;
     public GameObject knight;
     Animator spiritAnimator;
@@ -85,16 +82,19 @@ public class CharacterController : MonoBehaviour {
                     currentMirrorObject = armor.mirror;
                     armor.mirror = null;
                     hasMirror = true;
-                    
+
                 }
                 vesselObj.transform.parent.gameObject.SetActive(false);
             }
+
             else if (vesselObj.CompareTag("HidingSpot")) {
                 isHidden = true;
+                currentVesselObject = vesselObj;
+                vesselObj.transform.parent.GetComponent<HidingSpot>().ShowWill(true);
                 // Dissappear when hidden
-                gameObject.GetComponent<Renderer>().enabled = false;
-            }
+                spirit.SetActive(false);
 
+            }
         }
         else if (Input.GetKeyDown(KeyCode.G) && mirrorInRange && isArmored) {
             currentMirrorObject = mirrorObject;
@@ -109,32 +109,39 @@ public class CharacterController : MonoBehaviour {
             movement.x = 0;
             movement.y = 0;
             GravityOff();
-            if (currentVesselObject.CompareTag("Armor")) {
-                spirit.SetActive(true);
-                knight.SetActive(false);
-                
-                // If player has shield then enable shield sprite on armor object 
-                currentVesselObject.transform.parent.GetComponent<Armor>().SetShieldSprite(hasMirror);
-                
-                isArmored = false;
-                currentVesselObject.transform.parent.position = transform.position;
-                currentVesselObject.transform.parent.gameObject.SetActive(true);
-                Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
-                if (hasMirror) {
-                    armor.hasMirror = true;
-                    armor.mirror = currentMirrorObject;
-                    hasMirror = false;
+            if (currentVesselObject != null) {
+                if (currentVesselObject.CompareTag("Armor")) {
+                    spirit.SetActive(true);
+                    knight.SetActive(false);
+
+                    // If player has shield then enable shield sprite on armor object 
+                    GameObject rootVesselObj = currentVesselObject.transform.parent.gameObject;
+                    rootVesselObj.GetComponent<Armor>().SetShieldSprite(hasMirror);
+                    rootVesselObj.GetComponent<Armor>().transform.eulerAngles = transform.eulerAngles;
+
+                    isArmored = false;
+                    currentVesselObject.transform.parent.position = transform.position;
+                    currentVesselObject.transform.parent.gameObject.SetActive(true);
+                    Vessel armor = currentVesselObject.GetComponentInParent<Vessel>();
+                    if (hasMirror) {
+                        armor.hasMirror = true;
+                        armor.mirror = currentMirrorObject;
+                        hasMirror = false;
+                    }
+                    currentVesselObject = null;
+                    currentMirrorObject = null;
+                }
+                else {
+                    // Hiding spot
+                    isHidden = false;
+                    spirit.SetActive(true);
+                    vesselObj.transform.parent.GetComponent<HidingSpot>().ShowWill(false);
                 }
                 currentVesselObject = null;
-                currentMirrorObject = null;
+                possessSwitch = false;
             }
-            else {
-                // Hiding spot
-                isHidden = false;
-                gameObject.GetComponent<Renderer>().enabled = true;
-            }
-            currentVesselObject = null;
         }
+
 
         if (isInCandleLight && !isArmored) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -148,14 +155,12 @@ public class CharacterController : MonoBehaviour {
 
     private void GravityOn() {
         rb.gravityScale = 25;
-        possessSwitch = true;
         // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
         Physics2D.IgnoreLayerCollision(3, 6, false);
     }
 
     private void GravityOff() {
         rb.gravityScale = 0;
-        possessSwitch = false;
         isHidden = false;
         isArmored = false;
         // Layer indexes 3 and 6 correspond to Player and PassableObject respectively
@@ -178,7 +183,6 @@ public class CharacterController : MonoBehaviour {
         }
     }
     private void OnTriggerEnter2D( Collider2D collision ) {
-        //Debug.Log("COLLISISODNAWDNAWD");
         if (collision.gameObject.CompareTag("Armor") || collision.gameObject.CompareTag("HidingSpot")) {
             vesselObj = collision.gameObject;
             vesselInRange = true;
@@ -204,7 +208,7 @@ public class CharacterController : MonoBehaviour {
 
                 armor.hasMirror = false;
                 currentVesselObject.transform.parent.GetComponent<Armor>().SetShieldSprite(false);
-                
+
                 armor.mirror = null;
 
                 currentVesselObject = null;
@@ -242,7 +246,7 @@ public class CharacterController : MonoBehaviour {
     }
 
     // True for spirit, false for ghost
-    void ToggleForm(bool set) {
+    void ToggleForm( bool set ) {
         spirit.SetActive(set);
         knight.SetActive(!set);
     }
